@@ -1,0 +1,52 @@
+{
+  "kirk-cousins": {
+    "name": "Kirk Cousins",
+    "position": "QB",
+    "team": "WAS"
+  },
+  "giovani-bernard": {
+    "name": "Giovani Bernard",
+    "position": "RB",
+    "team": "CIN"
+  },
+  "leonard-fournette": {
+    "name": "Leonard Fournette",
+    "position": "RB",
+    "team": "JAX"
+  },
+  "julio-jones": {
+    "name": "Julio Jones",
+    "position": "WR",
+    "team": "ATL"
+  },
+  "davante-adams": {
+    "name": "Davante Adams",
+    "position": "WR",
+    "team": "GB"
+  },
+  "delanie-walker": {
+    "name": "Delanie Walker",
+    "position": "TE",
+    "team": "TEN"
+  },
+  "robert-woods": {
+    "name": "Robert Woods",
+    "position": "WR",
+    "team": "LA"
+  },
+  "andre-ellington": {
+    "name": "Andrew Ellington",
+    "position": "RB",
+    "team": "HOU"
+  },
+  "will-lutz": {
+    "name": "Will Lutz",
+    "position": "K",
+    "team": "NO"
+  },
+  "steelers": {
+    "name": "Pittsburgh Steelers",
+    "position": "D",
+    "team": "PIT"
+  }
+}

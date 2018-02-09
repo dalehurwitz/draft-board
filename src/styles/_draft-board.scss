@@ -1,0 +1,51 @@
+.draft-board {
+  display: flex;
+}
+
+.draft-team {
+  padding: 0 8px;
+  flex: 0 0 180px;
+}
+
+.draft-player {
+  margin-bottom: 8px;
+  padding: 10px;
+  border-radius: 4px;
+  color: #fff;
+  position: relative;
+  box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+  transition: box-shadow 0.15s;
+
+  &:before {
+    content: "";
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    box-shadow: inset 1px 1px 3px 0px rgba(0,0,0,0.25);
+  }
+
+  &:hover {
+    box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  &--RB {
+    background-color: $position-color-1;
+  }
+  &--WR {
+    background-color: $position-color-2;
+  }
+  &--TE {
+    background-color: $position-color-3;
+  }
+  &--QB {
+    background-color: $position-color-4;
+  }
+  &--D {
+    background-color: $position-color-5;
+  }
+  &--K {
+    background-color: $position-color-6;
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "A Game Of End Zones",
+  "teams": [
+    {
+      "name": "The Milkmen",
+      "players": [
+        "giovani-bernard",
+        "julio-jones",
+        "kirk-cousins",
+        "davante-adams",
+        "leonard-fournette",
+        "delanie-walker",
+        "robert-woods",
+        "andre-ellington",
+        "will-lutz",
+        "steelers"
+      ]
+    },
+    {
+      "name": "Bob Slaw",
+      "players": [
+        "andre-ellington",
+        "julio-jones",
+        "davante-adams",
+        "leonard-fournette",
+        "delanie-walker",
+        "robert-woods",
+        "will-lutz",
+        "kirk-cousins",
+        "steelers",
+        "giovani-bernard"
+      ]
+    }
+  ]
+}
