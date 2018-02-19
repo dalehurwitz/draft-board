@@ -4,10 +4,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
-    "build": "preact build",
-    "serve": "preact build && preact serve",
-    "dev": "preact watch -p 6060",
+    "start": "cross-env NODE_ENV=development npm run serve",
+    "start:prod": "cross-env NODE_ENV=production npm run serve",
+    "serve": "node ./src/server",
     "lint": "eslint src"
   },
   "eslintConfig": {
@@ -34,7 +33,9 @@
     "sass-loader": "^6.0.6"
   },
   "dependencies": {
+    "express": "^4.16.2",
     "preact": "^8.2.1",
-    "preact-compat": "^3.17.0"
+    "preact-compat": "^3.17.0",
+    "preact-router": "^2.6.0"
   }
 }

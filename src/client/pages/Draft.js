@@ -1,9 +1,8 @@
 import { h, Component } from 'preact'
-import './styles/main.scss'
-import DraftTeam from './components/DraftTeam'
-import mockDraft from './_DATA/mock-draft.json'
+import DraftTeam from '../components/DraftTeam'
+import mockDraft from '../_DATA/mock-draft.json'
 
-export default class App extends Component {
+class Draft extends Component {
   render () {
     return (
       <div>
@@ -15,3 +14,5 @@ export default class App extends Component {
     )
   }
 }
+
+export default Draft
