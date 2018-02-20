@@ -9,22 +9,19 @@ const exclude = /(node_modules|bower_components)/
 
 module.exports = env => {
   const isProd = env && env.production
-  let entry = {
-    app: './src/client/index.js'
-  }
+  let appEntry = ['./src/client/index.js']
 
   if (isProd) {
     babelOpts.presets.push('babili')
   } else {
     styles.unshift({ loader: 'style-loader' })
-
-    entry = Object.assign({
-      hot: 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'
-    }, entry)
+    appEntry.unshift('webpack-hot-middleware/client?path=/__webpack_hmr')
   }
 
   return {
-    entry,
+    entry: {
+      app: appEntry
+    },
     output: {
       path: dist,
       filename: '[name].[hash].js',
