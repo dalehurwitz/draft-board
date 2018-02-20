@@ -1,11 +1,11 @@
-import { h, Component } from 'preact'
+import { h, Component, render } from 'preact'
 import Router from 'preact-router'
 import './styles/main.scss'
 
 import Home from './pages/Home'
 import Draft from './pages/Draft'
 
-export default class App extends Component {
+class App extends Component {
   render () {
     return (
       <div>
@@ -18,4 +18,10 @@ export default class App extends Component {
       </div>
     )
   }
+}
+
+render(<App />, document.getElementById('root'))
+
+if (module.hot) {
+  module.hot.accept()
 }
