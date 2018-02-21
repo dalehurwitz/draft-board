@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "cross-env NODE_ENV=development npm run serve",
-    "start:prod": "cross-env NODE_ENV=production npm run serve",
-    "serve": "node ./src/server",
+    "start:prod": "npm run build && cross-env NODE_ENV=production npm run serve",
+    "serve": "nodemon ./src/server/index.js",
     "build": "webpack --env.production --config config/webpack",
     "lint": "eslint src"
   },
@@ -47,6 +47,7 @@
     "style-loader": "^0.20.2",
     "sw-precache-webpack-plugin": "^0.11.4",
     "webpack": "^3.11.0",
+    "webpack-dev-middleware": "^2.0.5",
     "webpack-hot-middleware": "^2.21.0"
   },
   "dependencies": {

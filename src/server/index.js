@@ -1,11 +1,12 @@
 const express = require('express')
-const webpack = require('webpack')
-const config = require('../../config/webpack')()
-const compiler = webpack(config)
+const path = require('path')
 const app = express()
 const isProd = process.env.NODE_ENV === 'production'
 
 if (!isProd) {
+  const webpack = require('webpack')
+  const config = require('../../config/webpack')()
+  const compiler = webpack(config)
   const webpackDevMiddleware = require('webpack-dev-middleware')
   const webpackHotMiddleware = require('webpack-hot-middleware')
   app.use(webpackDevMiddleware(compiler))
@@ -17,6 +18,25 @@ if (!isProd) {
     reload: true,
     publicPath: config.output.publicPath
   }))
+
+  app.use('*', function (req, res, next) {
+    const filename = path.join(compiler.outputPath, 'index.html')
+    compiler.outputFileSystem.readFile(filename, function (err, result) {
+      if (err) {
+        return next(err)
+      }
+      res.set('content-type', 'text/html')
+      res.send(result)
+      res.end()
+    })
+  })
+} else {
+  const publicPath = path.resolve('public')
+  app.use('/public', express.static(publicPath))
+  app.use('*', function (req, res) {
+    const indexPage = path.join(publicPath, 'index.html')
+    res.sendFile(indexPage)
+  })
 }
 
 app.listen(process.env.PORT || 6060, function () {

@@ -25,7 +25,7 @@ module.exports = env => {
     output: {
       path: dist,
       filename: '[name].[hash].js',
-      publicPath: '/'
+      publicPath: isProd ? '/public' : '/'
     },
     resolve: {
       alias: {

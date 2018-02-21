@@ -12,7 +12,6 @@ const root = join(__dirname, '../..')
 module.exports = isProd => {
   // base plugins array
   const plugins = [
-    new Clean(['public'], { root }),
     new Copy([{ context: 'assets/', from: '**/*.*' }]),
     new HTML({
       title: 'Draft Board',
@@ -25,6 +24,7 @@ module.exports = isProd => {
 
   if (isProd) {
     plugins.push(
+      new Clean(['public'], { root }),
       new webpack.LoaderOptionsPlugin({ minimize: true }),
       new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.optimize.UglifyJsPlugin(uglify),
