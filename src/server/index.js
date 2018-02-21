@@ -11,7 +11,6 @@ if (!isProd) {
   const webpackHotMiddleware = require('webpack-hot-middleware')
   app.use(webpackDevMiddleware(compiler))
   app.use(webpackHotMiddleware(compiler, {
-    noInfo: true,
     path: '/__webpack_hmr',
     heartbeat: 10 * 1000,
     timeout: 20000,
