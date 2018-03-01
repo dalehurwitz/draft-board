@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const app = express()
 const isProd = process.env.NODE_ENV === 'production'
 
-mongoose.connect('mongodb://admin:password123@localhost:27017/draft_board')
+mongoose.connect('mongodb://admin:password123@localhost:27017/draft_board?authSource=admin')
 mongoose.Promise = global.Promise
 mongoose.connection.on('error', (err) => {
   console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`)
