@@ -1,7 +1,14 @@
 const express = require('express')
 const path = require('path')
+const mongoose = require('mongoose')
 const app = express()
 const isProd = process.env.NODE_ENV === 'production'
+
+mongoose.connect('mongodb://admin:password123@localhost:27017/draft_board')
+mongoose.Promise = global.Promise
+mongoose.connection.on('error', (err) => {
+  console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`)
+})
 
 if (!isProd) {
   const webpack = require('webpack')

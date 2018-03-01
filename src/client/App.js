@@ -4,7 +4,7 @@ import './styles/main.scss'
 
 import Home from './pages/Home'
 import Draft from './pages/Draft'
-import Create from './pages/Create'
+import Create from './pages/Create/'
 
 class App extends Component {
   render () {

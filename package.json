@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "express": "^4.16.2",
+    "mongoose": "^5.0.7",
     "preact": "^8.2.1",
     "preact-compat": "^3.17.0",
     "preact-router": "^2.6.0"

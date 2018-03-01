@@ -1,4 +1,5 @@
 import { h, Component } from 'preact'
+import Team from './Team'
 
 const steps = ['NAME', 'TEAMS']
 
@@ -7,8 +8,7 @@ class Create extends Component {
     step: 0,
     draftName: null,
     teamName: null,
-    teams: [],
-    inputKey: Date.now()
+    teams: []
   }
 
   updateTextField = ({ target }) => {
@@ -35,10 +35,25 @@ class Create extends Component {
     }
   }
 
+  onEditTeam = index => {
+    return e => {
+      const newTeams = [...this.state.teams]
+      newTeams[index] = e.target.value
+      this.setState({ teams: newTeams })
+    }
+  }
+
+  onDeleteTeam = index => {
+    return () => {
+      const newTeams = [...this.state.teams]
+      newTeams.splice(index, 1)
+      this.setState({ teams: newTeams })
+    }
+  }
+
   toggleStep (dir) {
     this.setState({
-      step: this.state.step + dir,
-      inputKey: Date.now()
+      step: this.state.step + dir
     })
   }
 
@@ -85,7 +100,12 @@ class Create extends Component {
             <button onClick={this.prevStep}>Back</button>
             {!!this.state.teams.length && <button>Done</button>}
             <ol>
-              {this.state.teams.map(team => <li>{team}</li>)}
+              {this.state.teams.map((team, index) => (
+                <Team
+                  name={team}
+                  onEdit={this.onEditTeam(index)}
+                  onDelete={this.onDeleteTeam(index)} />
+              ))}
             </ol>
           </div>
         )
