@@ -7,7 +7,16 @@ const routes = require('./routes')
 const app = express()
 const isProd = process.env.NODE_ENV === 'production'
 
-mongoose.connect('mongodb://admin:password123@localhost:27017/draft_board?authSource=admin')
+require('dotenv').load()
+
+const {
+  DB_HOST,
+  DB_USER,
+  DB_PASSWORD,
+  DB_AUTHSOURCE
+} = process.env
+
+mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}?authSource=${DB_AUTHSOURCE}`)
 mongoose.Promise = global.Promise
 mongoose.connection.on('error', (err) => {
   console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`)
