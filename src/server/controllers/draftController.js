@@ -16,8 +16,8 @@ exports.createDraft = async (req, res) => {
     name: req.body.name,
     teams: teams.ops.map(team => team._id)
   })).save()
-
-  const populatedDraft = await draft.populate('teams').execPopulate()
-
-  res.json(populatedDraft)
+  // Populated teams can be pulled directly from 'teams'
+  // instead of running .populate() on 'draft'
+  draft.teams = [...teams.ops]
+  res.json(draft)
 }
