@@ -20,7 +20,8 @@ module.exports = env => {
 
   return {
     entry: {
-      app: appEntry
+      app: appEntry,
+      polyfills: ['whatwg-fetch', 'promise-polyfill/src/polyfill']
     },
     output: {
       path: dist,
@@ -35,17 +36,22 @@ module.exports = env => {
       }
     },
     module: {
-      rules: [{
-        test: /\.jsx?$/,
-        exclude: exclude,
-        loader: {
-          loader: 'babel-loader',
-          options: babelOpts
+      rules: [
+        {
+          test: /\.jsx?$/,
+          exclude: exclude,
+          loader: {
+            loader: 'babel-loader',
+            options: babelOpts
+          }
+        },
+        {
+          test: /\.(sass|scss)$/,
+          use: isProd
+            ? ExtractText.extract({ fallback: 'style-loader', use: styles })
+            : styles
         }
-      }, {
-        test: /\.(sass|scss)$/,
-        use: isProd ? ExtractText.extract({ fallback: 'style-loader', use: styles }) : styles
-      }]
+      ]
     },
     plugins: setup(isProd),
     devtool: !isProd && 'eval'

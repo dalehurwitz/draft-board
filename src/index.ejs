@@ -20,8 +20,14 @@
     <meta name="msapplication-TileColor" content="#F2F2F2">
 
     <meta name="theme-color" content="#673AB8">
+
+    <% for (var cssChunk of htmlWebpackPlugin.files.chunks['app'].css) { %>
+      <link rel="stylesheet" type="text/css" href="<%= cssChunk %>" />
+    <% } %>
   </head>
   <body>
     <div id="root"></div>
+    <script defer src="<%= htmlWebpackPlugin.files.chunks['app'].entry %>"></script>
+    <script>(window.fetch && window.Promise)||document.write('<script src="<%= htmlWebpackPlugin.files.chunks["polyfills"].entry %>"><\/script>')</script>
   </body>
 </html>

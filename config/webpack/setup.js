@@ -15,10 +15,13 @@ module.exports = isProd => {
     new Copy([{ context: 'assets/', from: '**/*.*' }]),
     new HTML({
       title: 'Draft Board',
-      template: 'src/index.ejs'
+      template: 'src/index.ejs',
+      inject: false
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(isProd ? 'production' : 'development')
+      'process.env.NODE_ENV': JSON.stringify(
+        isProd ? 'production' : 'development'
+      )
     })
   ]
 
