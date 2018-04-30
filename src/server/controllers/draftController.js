@@ -9,13 +9,14 @@ exports.getDraft = async (req, res) => {
 }
 
 exports.createDraft = async (req, res) => {
+  console.log(req.body)
   const newTeams = req.body.teams.map(name => new Team({ name }))
   // use .collection.insert() instead of .save() for efficiency
   const teams = await Team.collection.insert(newTeams)
-  const draft = await (new Draft({
+  const draft = await new Draft({
     name: req.body.name,
     teams: teams.ops.map(team => team._id)
-  })).save()
+  }).save()
   // Populated teams can be pulled directly from 'teams'
   // instead of running .populate() on 'draft'
   draft.teams = [...teams.ops]

@@ -1,4 +1,4 @@
-exports.catchErrors = (fn) => {
+exports.catchErrors = fn => {
   return function (req, res, next) {
     return fn(req, res, next).catch(next)
   }
@@ -9,7 +9,9 @@ exports.apiErrors = (err, req, res, next) => {
 
   if (!errors) next()
 
-  const message = Object.keys(errors).map(key => errors[key].message).join(', ')
+  const message = Object.keys(errors)
+    .map(key => errors[key].message)
+    .join(', ')
 
   res.status(400).json({
     error: true,

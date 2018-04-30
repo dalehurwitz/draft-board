@@ -11,8 +11,7 @@ class App extends Component {
     return (
       <div className='app'>
         <nav style={{ position: 'absolute', zIndex: '99', top: 0 }}>
-          <a href='/'>Home</a>{' '}
-          <a href='/draft'>Draft</a>{' '}
+          <a href='/'>Home</a> <a href='/draft'>Draft</a>{' '}
           <a href='/create'>Create</a>
         </nav>
         <Router>

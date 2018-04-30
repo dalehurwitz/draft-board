@@ -1,5 +1,6 @@
 import { h, Component } from 'preact'
 import Team from './Team'
+import { createDraft } from '../../api'
 
 const steps = ['NAME', 'TEAMS']
 
@@ -8,7 +9,9 @@ class Create extends Component {
     step: 0,
     draftName: null,
     teamName: null,
-    teams: []
+    teams: [],
+    loading: false,
+    error: null
   }
 
   updateTextField = ({ target }) => {
@@ -33,6 +36,26 @@ class Create extends Component {
         teamName: null
       })
     }
+  }
+
+  createDraft = () => {
+    this.setState({ loading: true })
+
+    createDraft(this.state.draftName, this.state.teams)
+      .then(() => {
+        this.setState({
+          loading: false,
+          info: 'Draft successfully created!',
+          teams: []
+        })
+      })
+      .catch(e => {
+        this.setState({
+          loading: false,
+          error: true,
+          info: JSON.stringify(e)
+        })
+      })
   }
 
   onEditTeam = index => {
@@ -98,7 +121,7 @@ class Create extends Component {
                 autoFocus />
             </form>
             <button onClick={this.prevStep}>Back</button>
-            {!!this.state.teams.length && <button>Done</button>}
+            {!!this.state.teams.length && <button onClick={this.createDraft}>Done</button>}
             <ol>
               {this.state.teams.map((team, index) => (
                 <Team
@@ -115,7 +138,17 @@ class Create extends Component {
   render () {
     return (
       <div className='fullscreen'>
-        {this.renderStep()}
+        {this.state.loading && <span>Loading...</span>}
+        {!this.state.loading && (
+          <div>
+            {this.renderStep()}
+            {this.state.info && (
+              <div style={{ color: this.state.error ? 'red' : 'green' }}>
+                {this.state.info}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     )
   }
