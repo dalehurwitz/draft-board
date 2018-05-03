@@ -4,6 +4,7 @@ exports.catchErrors = fn => {
   }
 }
 
+// MongoDB errors
 exports.apiErrors = (err, req, res, next) => {
   const errors = err.errors
 
@@ -20,8 +21,8 @@ exports.apiErrors = (err, req, res, next) => {
 }
 
 exports.catchAllErrors = (err, req, res, next) => {
-  res.status(500).json({
-    error: true,
-    message: err.message
+  res.status(err.status || 500).json({
+    error: err.error || err,
+    message: err.message || undefined
   })
 }

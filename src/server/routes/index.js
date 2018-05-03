@@ -9,7 +9,7 @@ router.get('/api/draft/:slug', draftController.getDraft)
 router.post('/api/create', catchErrors(draftController.createDraft))
 
 // accounts
-router.post('/api/register', catchErrors(register), login)
-router.post('/api/login', login)
+router.post('/api/register', catchErrors(register), login, setToken)
+router.post('/api/login', login, setToken)
 
 module.exports = router
