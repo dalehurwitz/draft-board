@@ -2,13 +2,11 @@ const passport = require('passport')
 const User = require('../models/User')
 
 exports.register = async function (req, res, next) {
-  await User.register(
-    new User({
-      username: req.body.username,
-      email: req.body.email
-    }),
-    req.body.password
-  )
+  await (new User({
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password
+  })).save()
   next()
 }
 
@@ -32,5 +30,8 @@ exports.login = function (req, res, next) {
 }
 
 exports.setToken = function (req, res, next) {
-  res.json(req.user)
+  res.json({
+    id: req.user.id,
+    username: req.user.username
+  })
 }

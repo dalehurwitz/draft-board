@@ -55,12 +55,12 @@
     "webpack-hot-middleware": "^2.21.0"
   },
   "dependencies": {
+    "bcrypt": "^2.0.1",
     "express": "^4.16.2",
     "hoek": "^5.0.3",
     "mongoose": "^5.0.7",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^5.0.0",
     "preact": "^8.2.1",
     "preact-compat": "^3.17.0",
     "preact-router": "^2.6.0",

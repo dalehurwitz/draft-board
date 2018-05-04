@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 const validator = require('validator')
+const bcrypt = require('bcrypt')
+
+const Schema = mongoose.Schema
 // const mongodbErrorHandler = require('mongoose-mongodb-errors')
-const passportLocalMongoose = require('passport-local-mongoose')
 
 mongoose.Promise = global.Promise
 
@@ -13,25 +14,36 @@ const userSchema = Schema({
     lowercase: true,
     trim: true,
     validate: [validator.isEmail, 'Invalid Email Address'],
-    required: 'Please Supply an email address'
+    required: 'Please supply an email address'
   },
   username: {
     type: String,
     required: 'Please supply a username',
-    trim: true,
-    unique: false
+    trim: true
+  },
+  password: {
+    type: String,
+    required: 'Please supply a password'
   },
   resetPasswordToken: String,
   resetPasspordExpires: Date
 })
 
-userSchema.plugin(passportLocalMongoose, {
-  usernameField: 'email',
-  errorMessages: {
-    UserExistsError: 'A user with that email address already exists'
-  }
-})
 // userSchema.plugin(mongodbErrorHandler)
+
+async function hashPassword (next) {
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, 10)
+  }
+  next()
+}
+
+userSchema.pre('save', hashPassword)
+userSchema.pre('update', hashPassword)
+
+userSchema.methods.comparePasswords = function (password) {
+  return bcrypt.compare(password, this.password)
+}
 
 userSchema.statics.serializeUser = function () {
   return function (user, cb) {
