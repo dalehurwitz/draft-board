@@ -1,5 +1,8 @@
 const passport = require('passport')
+const jwt = require('jsonwebtoken')
 const User = require('../models/User')
+
+require('dotenv').load()
 
 exports.register = async function (req, res, next) {
   await (new User({
@@ -30,8 +33,10 @@ exports.login = function (req, res, next) {
 }
 
 exports.setToken = function (req, res, next) {
+  const accessToken = jwt.sign({ userId: req.user.id }, process.env.JWT_SECRET, { expiresIn: '7d' })
   res.json({
-    id: req.user.id,
+    accessToken,
+    userId: req.user.id,
     username: req.user.username
   })
 }

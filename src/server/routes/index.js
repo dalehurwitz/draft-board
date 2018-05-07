@@ -6,7 +6,7 @@ const router = express.Router()
 
 // Create and retrieve drafts
 router.get('/api/draft/:slug', draftController.getDraft)
-router.post('/api/create', catchErrors(draftController.createDraft))
+router.post('/api/create/:userId?', catchErrors(draftController.createDraft))
 
 // accounts
 router.post('/api/register', catchErrors(register), login, setToken)

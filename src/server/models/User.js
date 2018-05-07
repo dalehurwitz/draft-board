@@ -26,13 +26,17 @@ const userSchema = Schema({
     required: 'Please supply a password'
   },
   resetPasswordToken: String,
-  resetPasspordExpires: Date
+  resetPasspordExpires: Date,
+  drafts: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Draft'
+  }]
 })
 
 // userSchema.plugin(mongodbErrorHandler)
 
 async function hashPassword (next) {
-  if (this.isModified('password')) {
+  if (this._update.password) {
     this.password = await bcrypt.hash(this.password, 10)
   }
   next()
