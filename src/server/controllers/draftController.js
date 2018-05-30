@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 const Draft = mongoose.model('Draft')
 const Team = mongoose.model('Team')
-const User = mongoose.model('User')
 
 exports.getDraft = async (req, res) => {
   const draft = await Draft.findOne({ slug: req.params.slug })
@@ -10,7 +9,7 @@ exports.getDraft = async (req, res) => {
 }
 
 exports.createDraft = async (req, res, next) => {
-  const user = await User.findById(req.params.userId)
+  const user = req.user
 
   if (!user) {
     return next({ error: 'User not found' })

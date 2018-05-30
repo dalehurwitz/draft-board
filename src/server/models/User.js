@@ -27,16 +27,20 @@ const userSchema = Schema({
   },
   resetPasswordToken: String,
   resetPasspordExpires: Date,
-  drafts: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'Draft'
-  }]
+  drafts: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Draft'
+    }
+  ]
 })
 
 // userSchema.plugin(mongodbErrorHandler)
 
 async function hashPassword (next) {
-  if (this._update.password) {
+  // If we're updating the user, ensure to only re-encrypt
+  // password if it is what's being updated
+  if (!this._update || this._update.password) {
     this.password = await bcrypt.hash(this.password, 10)
   }
   next()
