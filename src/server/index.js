@@ -3,6 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const passport = require('passport')
+const expressValidator = require('express-validator')
 const { initWebpack } = require('./dev')
 const errorMiddleware = require('./middleware/errors')
 
@@ -22,6 +23,8 @@ require('./middleware/passport')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+app.use(expressValidator())
 
 app.use(passport.initialize())
 

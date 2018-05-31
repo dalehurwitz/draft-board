@@ -9,19 +9,25 @@ exports.getDraft = async (req, res) => {
 }
 
 exports.createDraft = async (req, res, next) => {
-  const user = req.user
+  const { user, body } = req
 
-  if (!user) {
-    return next({ error: 'User not found' })
+  req.checkBody('teams', 'Teams array required').isArray()
+  req.checkBody('teams', 'Supply at least one team').notEmpty()
+
+  const errors = req.validationErrors()
+
+  if (errors) {
+    return next({ status: 400, error: errors })
   }
 
-  const newTeams = req.body.teams.map(name => new Team({ name }))
+  const newTeams = body.teams.map(name => new Team({ name }))
 
   // use .collection.insert() instead of .save() for efficiency
   const teams = await Team.collection.insert(newTeams)
   const draft = await new Draft({
-    name: req.body.name,
-    teams: teams.ops.map(team => team._id)
+    name: body.name,
+    teams: teams.ops.map(team => team._id),
+    owner: user._id
   }).save()
 
   await user.update({ $push: { drafts: draft._id } })

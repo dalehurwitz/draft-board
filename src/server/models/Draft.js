@@ -17,7 +17,11 @@ const draftSchema = new Schema({
       type: mongoose.Schema.ObjectId,
       ref: 'Team'
     }
-  ]
+  ],
+  owner: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  }
 })
 
 draftSchema.pre('save', async function (next) {

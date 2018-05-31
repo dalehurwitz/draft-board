@@ -4,19 +4,20 @@ exports.catchErrors = fn => {
   }
 }
 
-// MongoDB errors
+// Mongoose Schema errors
 exports.apiErrors = (err, req, res, next) => {
   const errors = err.errors
 
   if (!errors) return next(err)
 
-  const message = Object.keys(errors)
-    .map(key => errors[key].message)
-    .join(', ')
+  let messages = Object.keys(errors).map(key => errors[key].message)
+
+  if (messages.length <= 1) {
+    messages = messages[0]
+  }
 
   res.status(400).json({
-    error: true,
-    message
+    error: messages
   })
 }
 

@@ -44,3 +44,19 @@ exports.setToken = function (req, res, next) {
     username: req.user.username
   })
 }
+
+exports.verifyJwt = function (req, res, next) {
+  passport.authenticate('jwt', { session: false }, function (err, user, info) {
+    if (err) return next(err)
+
+    if (!user) {
+      return next({
+        status: 401,
+        error: 'InvalidToken'
+      })
+    }
+
+    req.user = user
+    next()
+  })(req, res, next)
+}
