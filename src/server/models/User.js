@@ -25,8 +25,8 @@ const userSchema = Schema({
     type: String,
     required: 'Please supply a password'
   },
-  resetPasswordToken: String,
-  resetPasspordExpires: Date,
+  resetToken: String,
+  resetTokenExpires: Date,
   drafts: [
     {
       type: mongoose.Schema.ObjectId,

@@ -1,8 +1,8 @@
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
+const crypto = require('crypto')
 const User = require('../models/User')
-
-require('dotenv').load()
+const mail = require('../lib/mail')
 
 exports.register = async function (req, res, next) {
   await new User({
@@ -59,4 +59,39 @@ exports.verifyJwt = function (req, res, next) {
     req.user = user
     next()
   })(req, res, next)
+}
+
+exports.forgotPassword = async function (req, res, next) {
+  const successPayload = {
+    message: 'An email has been sent to that address with a password reset link'
+  }
+
+  const user = await User.findOne({ email: req.body.email })
+
+  if (!user) {
+    return res.json(successPayload)
+  }
+
+  await user.update({
+    resetToken: crypto.randomBytes(20).toString('hex'),
+    resetTokenExpires: Date.now() + 3600000
+  })
+
+  await mail.send({
+    filename: 'email-forgot.ejs',
+    email: req.body.email,
+    subject: 'Draft.com: Reset your password',
+    url: `http://${req.headers.host}/account/reset/${user.resetToken}`
+  })
+
+  res.json(successPayload)
+}
+
+exports.resetPassword = async function (req, res, next) {
+  const user = await User.findOne({
+    resetToken: req.params.token,
+    resetTokenExpires: { $gt: Date.now() + 3600000 }
+  })
+
+  res.json(user)
 }

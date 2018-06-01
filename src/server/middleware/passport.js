@@ -4,8 +4,6 @@ const mongoose = require('mongoose')
 const User = mongoose.model('User')
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt')
 
-require('dotenv').load()
-
 passport.use(
   new LocalStrategy({ usernameField: 'email' }, async function (
     username,
