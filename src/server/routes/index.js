@@ -5,8 +5,10 @@ const {
   login,
   setToken,
   verifyJwt,
+  checkForResetToken,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  confirmMatchingPasswords
 } = require('../controllers/authController')
 const { catchErrors } = require('../middleware/errors')
 const router = express.Router()
@@ -19,6 +21,11 @@ router.post('/api/create/', verifyJwt, catchErrors(draftController.createDraft))
 router.post('/api/register', catchErrors(register), login, setToken)
 router.post('/api/login', login, setToken)
 router.post('/api/forgot', catchErrors(forgotPassword))
-router.post('/api/reset/:token', catchErrors(resetPassword))
+router.post(
+  '/api/reset/:token?',
+  checkForResetToken,
+  confirmMatchingPasswords,
+  catchErrors(resetPassword)
+)
 
 module.exports = router

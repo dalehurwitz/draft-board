@@ -72,8 +72,10 @@ exports.forgotPassword = async function (req, res, next) {
     return res.json(successPayload)
   }
 
+  const resetToken = crypto.randomBytes(20).toString('hex')
+
   await user.update({
-    resetToken: crypto.randomBytes(20).toString('hex'),
+    resetToken,
     resetTokenExpires: Date.now() + 3600000
   })
 
@@ -81,17 +83,49 @@ exports.forgotPassword = async function (req, res, next) {
     filename: 'email-forgot.ejs',
     email: req.body.email,
     subject: 'Draft.com: Reset your password',
-    url: `http://${req.headers.host}/account/reset/${user.resetToken}`
+    url: `http://${req.headers.host}/account/reset/${resetToken}`
   })
 
   res.json(successPayload)
 }
 
+exports.confirmMatchingPasswords = (req, res, next) => {
+  if (req.body.password === req.body['password-confirm']) {
+    return next()
+  }
+
+  next({
+    status: '401',
+    error: 'PASSWORD_MISMATCH'
+  })
+}
+
+exports.checkForResetToken = (req, res, next) => {
+  if (req.params.token) {
+    return next()
+  }
+  next({
+    status: '401',
+    error: 'MISSING_TOKEN'
+  })
+}
+
 exports.resetPassword = async function (req, res, next) {
   const user = await User.findOne({
     resetToken: req.params.token,
-    resetTokenExpires: { $gt: Date.now() + 3600000 }
+    resetTokenExpires: { $gt: Date.now() }
   })
 
-  res.json(user)
+  if (user) {
+    await user.update({ password: req.body.password })
+    return res.json({
+      success: true,
+      message: 'PASSWORD_UPDATED'
+    })
+  }
+
+  return next({
+    status: '401',
+    error: 'RESET_TOKEN_INVALID'
+  })
 }

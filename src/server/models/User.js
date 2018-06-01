@@ -37,17 +37,26 @@ const userSchema = Schema({
 
 // userSchema.plugin(mongodbErrorHandler)
 
-async function hashPassword (next) {
+function hashPassword (password) {
+  return bcrypt.hash(password, 10)
+}
+
+async function hashPasswordSave (next) {
+  this.password = await hashPassword(this.password)
+  next()
+}
+
+async function hashPasswordUpdate (next) {
   // If we're updating the user, ensure to only re-encrypt
   // password if it is what's being updated
-  if (!this._update || this._update.password) {
-    this.password = await bcrypt.hash(this.password, 10)
+  if (this._update.password) {
+    this._update.password = await hashPassword(this._update.password)
   }
   next()
 }
 
-userSchema.pre('save', hashPassword)
-userSchema.pre('update', hashPassword)
+userSchema.pre('save', hashPasswordSave)
+userSchema.pre('update', hashPasswordUpdate)
 
 userSchema.methods.comparePasswords = function (password) {
   return bcrypt.compare(password, this.password)
