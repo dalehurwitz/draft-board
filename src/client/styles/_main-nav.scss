@@ -1,0 +1,21 @@
+@import 'variables';
+
+#main-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: $main-nav-height;
+  display: flex;
+  background: #eee;
+}
+
+.main-nav__link {
+  padding: 0 20px;
+  line-height: $main-nav-height;
+  text-decoration: none;
+  &--active,
+  &:hover {
+    text-decoration: underline;
+  }
+}
