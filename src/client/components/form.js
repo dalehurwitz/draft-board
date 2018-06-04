@@ -1,10 +1,24 @@
 import { h, Component } from 'preact'
 
+function validateFormElements (elements) {
+  return [].reduce.call(elements, (list, elem) => {
+    if (elem.checkValidity()) return list
+
+    for (var errorKey in elem.validity) {
+      if (elem.validity[errorKey]) {
+        list[elem.name] = errorKey
+        return list
+      }
+    }
+  }, {})
+}
+
 function form (WrappedComponent, initialState) {
   return class extends Component {
     state = {
       submitted: false,
       dirtyFields: {},
+      errors: {},
       ...initialState
     }
 
@@ -21,16 +35,21 @@ function form (WrappedComponent, initialState) {
 
     onSubmit = event => {
       event.preventDefault()
-      console.log(event)
+
+      const errors = validateFormElements(event.target.elements)
+      this.setState({ errors })
     }
 
     render (props) {
       return (
-        <WrappedComponent
-          {...props}
-          onChange={this.onChange}
-          onSubmit={this.onSubmit}
-        />
+        <form onSubmit={this.onSubmit} noValidate>
+          <WrappedComponent
+            onChange={this.onChange}
+            onSubmit={this.onSubmit}
+            errors={this.state.errors}
+            {...props}
+          />
+        </form>
       )
     }
   }

@@ -1,9 +1,9 @@
 import { h } from 'preact'
 import form from '../../components/form'
 
-const Register = ({ onChange, onSubmit }) => {
+const Register = ({ onChange, onSubmit, errors }) => {
   return (
-    <form onSubmit={onSubmit}>
+    <div>
       <h2>Register</h2>
       <label htmlFor='email'>Email</label>
       <input
@@ -13,8 +13,11 @@ const Register = ({ onChange, onSubmit }) => {
         required
         novalidate
       />
-      <button type='submit'>"Submit"</button>
-    </form>
+      <button type='submit'>Submit</button>
+      <pre>
+        {JSON.stringify(errors)}
+      </pre>
+    </div>
   )
 }
 
