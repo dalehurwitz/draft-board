@@ -1,8 +1,27 @@
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
+const { body } = require('express-validator/check')
+const { sanitizeBody } = require('express-validator/filter')
+const { equals, alphaNumeric } = require('../middleware/validators')
+const { handleValidationErrors } = require('../middleware/errors')
 const User = require('../models/User')
 const mail = require('../lib/mail')
+
+exports.validateRegister = [
+  sanitizeBody('email').normalizeEmail({
+    gmail_remove_dots: false,
+    remove_extension: false,
+    gmail_remove_subaddress: false
+  }),
+  body('username', 'Username is required').not().isEmpty(),
+  body('username').custom(alphaNumeric('Username can only include numbers and letters')),
+  body('email', 'Email is not valid').isEmail(),
+  body('password', 'Password is required').not().isEmpty(),
+  body('password-confirm', 'Confirm your password').not().isEmpty(),
+  body('password-confirm').custom(equals('password', 'Passwords do not match')),
+  handleValidationErrors
+]
 
 exports.register = async function (req, res, next) {
   await new User({
@@ -45,7 +64,7 @@ exports.setToken = function (req, res, next) {
   })
 }
 
-exports.verifyJwt = function (req, res, next) {
+exports.validateJWT = function (req, res, next) {
   passport.authenticate('jwt', { session: false }, function (err, user, info) {
     if (err) return next(err)
 

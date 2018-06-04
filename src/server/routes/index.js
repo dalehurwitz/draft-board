@@ -1,10 +1,15 @@
 const express = require('express')
-const draftController = require('../controllers/draftController')
 const {
+  validateDraft,
+  createDraft,
+  getDraft
+} = require('../controllers/draftController')
+const {
+  validateRegister,
   register,
   login,
   setToken,
-  verifyJwt,
+  validateJWT,
   checkForResetToken,
   forgotPassword,
   resetPassword,
@@ -14,11 +19,11 @@ const { catchErrors } = require('../middleware/errors')
 const router = express.Router()
 
 // Create and retrieve drafts
-router.get('/api/draft/:slug', draftController.getDraft)
-router.post('/api/create/', verifyJwt, catchErrors(draftController.createDraft))
+router.get('/api/draft/:slug', getDraft)
+router.post('/api/create/', validateJWT, validateDraft, catchErrors(createDraft))
 
 // accounts
-router.post('/api/register', catchErrors(register), login, setToken)
+router.post('/api/register', validateRegister, catchErrors(register), login, setToken)
 router.post('/api/login', login, setToken)
 router.post('/api/forgot', catchErrors(forgotPassword))
 router.post(
