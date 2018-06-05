@@ -3,7 +3,7 @@ const { validationResult } = require('express-validator/check')
 const mongoErrorCodes = {
   '11000': {
     error: 'USER_ALREADY_EXISTS',
-    status: 400
+    status: 401
   }
 }
 

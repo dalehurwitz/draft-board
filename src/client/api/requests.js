@@ -18,12 +18,16 @@ function createFetchRequest (method, url, body = {}) {
     body: JSON.stringify(body)
   }
 
-  const fetchPromise = fetch(url, options).then(response => {
-    if (response.status >= 200 && response.status < 400) {
-      return response.json()
-    }
-    return Promise.reject(response)
-  })
+  const fetchPromise = fetch(url, options)
+    .then(response => {
+      if (response.status >= 200 && response.status < 400) {
+        return response.json()
+      }
+      return Promise.reject(response)
+    })
+    .catch(error => {
+      return error.json()
+    })
 
   return Promise.race([fetchPromise, timeoutPromise])
 }

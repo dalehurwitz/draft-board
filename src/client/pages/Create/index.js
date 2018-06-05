@@ -1,6 +1,6 @@
 import { h, Component } from 'preact'
 import Team from './Team'
-import { createDraft } from '../../api'
+import { createDraft } from '../../api/draft'
 
 const steps = ['NAME', 'TEAMS']
 
@@ -102,7 +102,8 @@ class Create extends Component {
                 onInput={this.updateTextField}
                 value={this.state.draftName}
                 autoComplete='off'
-                autoFocus />
+                autoFocus
+              />
             </form>
           </div>
         )
@@ -118,16 +119,20 @@ class Create extends Component {
                 onInput={this.updateTextField}
                 value={this.state.teamName}
                 autoComplete='off'
-                autoFocus />
+                autoFocus
+              />
             </form>
             <button onClick={this.prevStep}>Back</button>
-            {!!this.state.teams.length && <button onClick={this.createDraft}>Done</button>}
+            {!!this.state.teams.length && (
+              <button onClick={this.createDraft}>Done</button>
+            )}
             <ol>
               {this.state.teams.map((team, index) => (
                 <Team
                   name={team}
                   onEdit={this.onEditTeam(index)}
-                  onDelete={this.onDeleteTeam(index)} />
+                  onDelete={this.onDeleteTeam(index)}
+                />
               ))}
             </ol>
           </div>
