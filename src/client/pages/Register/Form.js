@@ -1,12 +1,11 @@
 import { h } from 'preact'
 import form from '../../components/form/container'
 import TextField from '../../components/form/TextField'
-import { register } from '../../api/account'
+import { FIELD_ERRORS } from '../../config.json'
 
 const Register = ({ onInput, values, errors }) => {
   return (
     <div>
-      <h2>Register</h2>
       <TextField
         type='text'
         name='username'
@@ -53,18 +52,5 @@ const Register = ({ onInput, values, errors }) => {
 }
 
 export default form(Register, {
-  onSubmit (values) {
-    return register(
-      values.username,
-      values.email,
-      values.password,
-      values.passwordConfirm
-    )
-  },
-  onSuccess (data) {
-    console.log(data)
-  },
-  onError (error) {
-    console.log(error)
-  }
+  fieldErrorMessages: FIELD_ERRORS.REGISTER
 })

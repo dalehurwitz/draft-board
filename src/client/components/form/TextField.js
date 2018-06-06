@@ -24,4 +24,8 @@ const TextField = ({
   </div>
 )
 
+TextField.defaultProps = {
+  type: 'text'
+}
+
 export default TextField

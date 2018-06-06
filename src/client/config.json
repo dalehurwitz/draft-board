@@ -1,0 +1,19 @@
+{
+  "FIELD_ERRORS": {
+    "REGISTER": {
+      "username": {
+        "valueMissing": "Username is required"
+      },
+      "email": {
+        "valueMissing": "Email is required",
+        "typeMismatch": "Enter a valid email address"
+      },
+      "password": {
+        "valueMissing": "Password is required"
+      },
+      "passwordConfirm": {
+        "valueMissing": "Confirm your password"
+      }
+    }
+  }
+}

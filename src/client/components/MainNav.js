@@ -14,6 +14,13 @@ const MainNav = () => {
       <Link
         className='main-nav__link'
         activeClassName='main-nav__link--active'
+        href='/register'
+      >
+        Register
+      </Link>
+      <Link
+        className='main-nav__link'
+        activeClassName='main-nav__link--active'
         href='/draft'
       >
         Draft
