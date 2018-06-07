@@ -1,5 +1,14 @@
 {
   "FIELD_ERRORS": {
+    "LOGIN": {
+      "email": {
+        "valueMissing": "Email is required",
+        "typeMismatch": "Enter a valid email address"
+      },
+      "password": {
+        "valueMissing": "Password is required"
+      }
+    },
     "REGISTER": {
       "username": {
         "valueMissing": "Username is required"

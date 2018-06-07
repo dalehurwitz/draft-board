@@ -3,19 +3,9 @@ import form from '../../components/form/container'
 import TextField from '../../components/form/TextField'
 import { FIELD_ERRORS } from '../../config.json'
 
-const Register = ({ onInput, values, errors }) => {
+const Login = ({ onInput, values, errors }) => {
   return (
     <div>
-      <TextField
-        type='text'
-        name='username'
-        id='username'
-        label='Username'
-        value={values.username}
-        error={errors.username}
-        onInput={onInput}
-        required
-      />
       <TextField
         type='email'
         name='email'
@@ -36,21 +26,11 @@ const Register = ({ onInput, values, errors }) => {
         onInput={onInput}
         required
       />
-      <TextField
-        type='password'
-        name='passwordConfirm'
-        id='passwordConfirm'
-        label='Confirm Password'
-        value={values.passwordConfirm}
-        error={errors.passwordConfirm}
-        onInput={onInput}
-        required
-      />
-      <button type='submit'>Register</button>
+      <button type='submit'>Login</button>
     </div>
   )
 }
 
-export default form(Register, {
-  fieldErrorMessages: FIELD_ERRORS.REGISTER
+export default form(Login, {
+  fieldErrorMessages: FIELD_ERRORS.LOGIN
 })

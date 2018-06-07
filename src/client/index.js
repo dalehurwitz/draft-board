@@ -1,10 +1,18 @@
 import { h, render } from 'preact'
+import { Provider } from 'unistore/preact'
 import App from './App'
+import store from './store'
 
 let root
 
 function init () {
-  root = render(<App />, document.getElementById('root'), root)
+  root = render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById('root'),
+    root
+  )
 }
 
 if (module.hot) {

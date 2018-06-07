@@ -18,14 +18,12 @@ class Register extends Component {
   render () {
     return (
       <div className='fullscreen'>
-        <div>
-          <h2>Create an account</h2>
-          <Form
-            onSubmit={this.onSubmit}
-            onSuccess={this.onSuccess}
-            onError={this.onError}
-          />
-        </div>
+        <h2>Create an account</h2>
+        <Form
+          onSubmit={this.onSubmit}
+          onSuccess={this.onSuccess}
+          onError={this.onError}
+        />
       </div>
     )
   }
