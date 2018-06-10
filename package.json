@@ -4,21 +4,22 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "cross-env NODE_ENV=development npm run serve",
-    "start:prod": "npm run build && cross-env NODE_ENV=production npm run serve",
-    "serve": "nodemon ./src/server/index.js",
-    "build": "webpack --env.production --config config/webpack",
-    "lint": "eslint src"
+    "start": "concurrently \"npm run start-server\" \"npm run start:client\"",
+    "start:client":
+      "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
+    "start-server": "nodemon ./src/server/index.js",
+    "start-server:prod":
+      "cross-env NODE_ENV=production node ./src/server/index.js",
+    "build": "preact build --src src/client",
+    "serve": "npm run build && npm run start-server:prod",
+    "dev": "preact watch --src src/client",
+    "lint": "eslint src",
+    "test": "jest ./tests"
   },
   "eslintConfig": {
-    "extends": [
-      "eslint-config-standard",
-      "eslint-config-standard-preact"
-    ]
+    "extends": ["eslint-config-standard", "eslint-config-standard-preact"]
   },
-  "eslintIgnore": [
-    "build/*"
-  ],
+  "eslintIgnore": ["build/*"],
   "devDependencies": {
     "autoprefixer": "^8.0.0",
     "babel-core": "^6.26.0",
@@ -43,15 +44,22 @@
     "eslint-plugin-standard": "^3.0.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "html-webpack-plugin": "^2.30.1",
+    "identity-obj-proxy": "^3.0.0",
+    "if-env": "^1.0.4",
+    "jest": "^23.1.0",
     "node-sass": "^4.7.2",
     "nodemon": "^1.17.3",
     "postcss-loader": "^2.1.0",
+    "preact-cli": "^2.2.1",
+    "preact-render-spy": "^1.3.0",
     "sass-loader": "^6.0.6",
     "slug": "^0.9.1",
     "style-loader": "^0.20.2",
     "sw-precache-webpack-plugin": "^0.11.4",
     "webpack": "^3.11.0",
+    "webpack-cli": "^3.0.3",
     "webpack-dev-middleware": "^2.0.5",
+    "webpack-dev-server": "^3.1.4",
     "webpack-hot-middleware": "^2.21.0"
   },
   "dependencies": {
@@ -73,5 +81,23 @@
     "unistore": "^3.0.6",
     "validator": "^9.4.1",
     "whatwg-fetch": "^2.0.3"
+  },
+  "jest": {
+    "verbose": true,
+    "setupFiles": ["<rootDir>/src/tests/__mocks__/browserMocks.js"],
+    "testURL": "http://localhost:6060",
+    "moduleFileExtensions": ["js", "jsx"],
+    "moduleDirectories": ["node_modules"],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+        "<rootDir>/src/tests/__mocks__/fileMock.js",
+      "\\.(css|less|scss)$": "identity-obj-proxy",
+      "^./style$": "identity-obj-proxy",
+      "^preact$": "<rootDir>/node_modules/preact/dist/preact.min.js",
+      "^react$": "preact-compat",
+      "^react-dom$": "preact-compat",
+      "^create-react-class$": "preact-compat/lib/create-react-class",
+      "^react-addons-css-transition-group$": "preact-css-transition-group"
+    }
   }
 }

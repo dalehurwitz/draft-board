@@ -3,7 +3,6 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const passport = require('passport')
-const { initWebpack } = require('./dev')
 const errorMiddleware = require('./middleware/errors')
 
 const app = express()
@@ -39,16 +38,14 @@ mongoose.connection.on('error', err => {
 })
 
 if (isProd) {
-  const publicPath = path.resolve('public')
-  app.use('/public', express.static(publicPath))
+  const publicPath = path.resolve('build')
+  app.use('/build', express.static(publicPath))
   app.use('*', function (req, res) {
     const indexPage = path.join(publicPath, 'index.html')
     res.sendFile(indexPage)
   })
-} else {
-  initWebpack(app)
 }
 
-app.listen(process.env.PORT || 6060, function () {
+app.listen(6061, function () {
   console.log(`Express running on port ${this.address().port}`)
 })
