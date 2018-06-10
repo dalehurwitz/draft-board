@@ -37,6 +37,7 @@ mongoose.connection.on('error', err => {
   console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`)
 })
 
+// serve assets and index.html from Express on prod
 if (isProd) {
   const publicPath = path.resolve('build')
   app.use('/build', express.static(publicPath))

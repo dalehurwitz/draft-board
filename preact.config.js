@@ -1,4 +1,7 @@
 export default (config, env, helpers) => {
+  if (env.production) {
+    config.output.publicPath = '/build'
+  }
   config.devServer = {
     quiet: true,
     port: 6060,
