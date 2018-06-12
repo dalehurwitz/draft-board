@@ -1,7 +1,7 @@
 import { h } from 'preact'
 import form from '../../components/form/container'
 import TextField from '../../components/form/TextField'
-import { FIELD_ERRORS } from '../../config.json'
+import { FIELD_ERRORS, REGEXP_PATTERNS } from '../../config.json'
 
 const Register = ({ onInput, values, errors }) => {
   return (
@@ -14,6 +14,7 @@ const Register = ({ onInput, values, errors }) => {
         value={values.username}
         error={errors.username}
         onInput={onInput}
+        pattern={REGEXP_PATTERNS.ALPHA_NUMERIC}
         required
       />
       <TextField

@@ -3,6 +3,7 @@ const accountActions = () => ({
     return {
       ...state,
       account: {
+        authenticated: true,
         accessToken,
         username
       }

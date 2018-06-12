@@ -6,6 +6,7 @@ import { FIELD_ERRORS } from '../../config.json'
 const Login = ({ onInput, values, errors }) => {
   return (
     <div>
+      <h2>Login</h2>
       <TextField
         type='email'
         name='email'

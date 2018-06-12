@@ -1,4 +1,7 @@
 {
+  "REGEXP_PATTERNS": {
+    "ALPHA_NUMERIC": "^[a-zA-Z0-9 ]*$"
+  },
   "FIELD_ERRORS": {
     "LOGIN": {
       "email": {
@@ -11,7 +14,8 @@
     },
     "REGISTER": {
       "username": {
-        "valueMissing": "Username is required"
+        "valueMissing": "Username is required",
+        "patternMismatch": "Username can only include numbers and letters"
       },
       "email": {
         "valueMissing": "Email is required",

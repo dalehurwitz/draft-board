@@ -1,7 +1,9 @@
 import createStore from 'unistore'
 
 const initialState = {
-  account: {}
+  account: {
+    authenticated: false
+  }
 }
 
 export default createStore(initialState)

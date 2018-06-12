@@ -4,6 +4,7 @@ export default (config, env, helpers) => {
   }
   config.devServer = {
     quiet: true,
+    historyApiFallback: true,
     port: 6060,
     proxy: [
       {

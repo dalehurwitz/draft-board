@@ -1,20 +1,35 @@
 import { h, Component } from 'preact'
-import Router from 'preact-router'
+import Router, { route } from 'preact-router'
+import { connect } from 'unistore/preact'
 import './styles/main.scss'
 
+// Pages
 import MainNav from './components/MainNav'
 import Home from './pages/Home'
+import Account from './pages/Account'
 import Register from './pages/Register'
 import Draft from './pages/Draft'
 import Create from './pages/Create/'
 
 class App extends Component {
+  onRouteChange = event => {
+    console.log(this.props.account)
+    switch (event.url) {
+      case '/account':
+        if (!this.props.account.authenticated) {
+          route('/', true)
+        }
+    }
+  }
+
   render () {
+    console.log(this.props.account)
     return (
       <div className='app'>
         <MainNav />
-        <Router>
+        <Router onChange={this.onRouteChange}>
           <Home path='/' />
+          <Account path='/account' />
           <Register path='/register' />
           <Draft path='/draft' />
           <Create path='/create' />
@@ -24,4 +39,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default connect('account')(App)

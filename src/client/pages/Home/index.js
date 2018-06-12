@@ -1,4 +1,5 @@
 import { h, Component } from 'preact'
+import { route } from 'preact-router'
 import { connect } from 'unistore/preact'
 import LoginForm from './LoginForm'
 import { login } from '../../api/account'
@@ -11,6 +12,7 @@ class Home extends Component {
 
   onLoginSuccess = data => {
     this.props.login(data)
+    route('/account')
   }
 
   onLoginError (error) {
@@ -31,4 +33,7 @@ class Home extends Component {
   }
 }
 
-export default connect('account', accountActions)(Home)
+export default connect(
+  'account',
+  accountActions
+)(Home)
