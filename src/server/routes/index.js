@@ -10,6 +10,7 @@ const {
   login,
   setToken,
   validateJWT,
+  authenticate,
   checkForResetToken,
   forgotPassword,
   resetPassword,
@@ -20,10 +21,22 @@ const router = express.Router()
 
 // Create and retrieve drafts
 router.get('/api/draft/:slug', getDraft)
-router.post('/api/create/', validateJWT, validateDraft, catchErrors(createDraft))
+router.post(
+  '/api/create/',
+  validateJWT,
+  validateDraft,
+  catchErrors(createDraft)
+)
 
 // accounts
-router.post('/api/register', validateRegister, catchErrors(register), login, setToken)
+router.get('/api/authenticate', validateJWT, authenticate)
+router.post(
+  '/api/register',
+  validateRegister,
+  catchErrors(register),
+  login,
+  setToken
+)
 router.post('/api/login', login, setToken)
 router.post('/api/forgot', catchErrors(forgotPassword))
 router.post(

@@ -14,11 +14,19 @@ exports.validateRegister = [
     remove_extension: false,
     gmail_remove_subaddress: false
   }),
-  body('username', 'Username is required').not().isEmpty(),
-  body('username').custom(alphaNumeric('Username can only include numbers and letters')),
+  body('username', 'Username is required')
+    .not()
+    .isEmpty(),
+  body('username').custom(
+    alphaNumeric('Username can only include numbers and letters')
+  ),
   body('email', 'Email is not valid').isEmail(),
-  body('password', 'Password is required').not().isEmpty(),
-  body('password-confirm', 'Confirm your password').not().isEmpty(),
+  body('password', 'Password is required')
+    .not()
+    .isEmpty(),
+  body('password-confirm', 'Confirm your password')
+    .not()
+    .isEmpty(),
   body('password-confirm').custom(equals('password', 'Passwords do not match')),
   handleValidationErrors
 ]
@@ -76,8 +84,25 @@ exports.validateJWT = function (req, res, next) {
     }
 
     req.user = user
-    next()
+    next(null)
   })(req, res, next)
+}
+
+// If an auth token is valid return user info
+exports.authenticate = function (err, req, res, next) {
+  if (err) {
+    if (err.error === 'InvalidToken') {
+      return res.json({ authenticated: false })
+    }
+    return next(err)
+  }
+
+  return res.json({
+    authenticated: true,
+    accessToken,
+    userId: req.user.id,
+    username: req.user.username
+  })
 }
 
 exports.forgotPassword = async function (req, res, next) {

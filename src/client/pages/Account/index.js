@@ -1,7 +1,14 @@
 import { h, Component } from 'preact'
+import { route } from 'preact-router'
 import { connect } from 'unistore/preact'
 
 class Account extends Component {
+  componentDidMount () {
+    if (!this.props.account.authenticated) {
+      route('/', true)
+    }
+  }
+
   render ({ username }) {
     return (
       <div>

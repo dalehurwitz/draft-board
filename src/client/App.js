@@ -3,6 +3,8 @@ import Router, { route } from 'preact-router'
 import { connect } from 'unistore/preact'
 import './styles/main.scss'
 
+import { getStoredAccessToken } from './utils'
+
 // Pages
 import MainNav from './components/MainNav'
 import Home from './pages/Home'
@@ -12,22 +14,15 @@ import Draft from './pages/Draft'
 import Create from './pages/Create/'
 
 class App extends Component {
-  onRouteChange = event => {
-    console.log(this.props.account)
-    switch (event.url) {
-      case '/account':
-        if (!this.props.account.authenticated) {
-          route('/', true)
-        }
-    }
+  componentDidMount () {
+    const token = getStoredAccessToken()
   }
 
   render () {
-    console.log(this.props.account)
     return (
       <div className='app'>
         <MainNav />
-        <Router onChange={this.onRouteChange}>
+        <Router>
           <Home path='/' />
           <Account path='/account' />
           <Register path='/register' />
