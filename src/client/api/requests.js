@@ -8,12 +8,13 @@ function timeout (delay) {
   })
 }
 
-function createFetchRequest (method, url, body = {}) {
+function createFetchRequest (method, url, body, authToken) {
   const timeoutPromise = timeout(10000)
   const options = {
     method,
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${authToken}`
     },
     body: JSON.stringify(body)
   }
@@ -26,22 +27,23 @@ function createFetchRequest (method, url, body = {}) {
       return Promise.reject(response)
     })
     .catch(error => {
+      console.log(error)
       return error.json()
     })
 
   return Promise.race([fetchPromise, timeoutPromise])
 }
 
-function get (url, body) {
-  return createFetchRequest('GET', url, body)
+function get (url, authToken) {
+  return createFetchRequest('GET', url, undefined, authToken)
 }
 
-function put (url, body) {
-  return createFetchRequest('PUT', url, body)
+function put (url, body, authToken) {
+  return createFetchRequest('PUT', url, body, authToken)
 }
 
-function post (url, body) {
-  return createFetchRequest('POST', url, body)
+function post (url, body, authToken) {
+  return createFetchRequest('POST', url, body, authToken)
 }
 
 export { get, put, post }

@@ -10,7 +10,7 @@ const {
   login,
   setToken,
   validateJWT,
-  authenticate,
+  checkAuth,
   checkForResetToken,
   forgotPassword,
   resetPassword,
@@ -29,7 +29,7 @@ router.post(
 )
 
 // accounts
-router.get('/api/authenticate', validateJWT, authenticate)
+router.get('/api/check', checkAuth)
 router.post(
   '/api/register',
   validateRegister,

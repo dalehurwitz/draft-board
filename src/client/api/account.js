@@ -1,4 +1,4 @@
-import { post } from './requests'
+import { get, post } from './requests'
 
 function login (email, password) {
   return post(`/api/login`, {
@@ -16,4 +16,8 @@ function register (username, email, password, passwordConfirm) {
   })
 }
 
-export { login, register }
+function check (authToken) {
+  return get(`/api/check`, authToken)
+}
+
+export { login, register, check }

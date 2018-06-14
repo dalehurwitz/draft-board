@@ -12,7 +12,6 @@ class Home extends Component {
 
   onLoginSuccess = data => {
     this.props.login(data)
-    route('/account')
   }
 
   onLoginError (error) {

@@ -1,4 +1,5 @@
 import { storeAccessToken, getStoredAccessToken } from '../utils'
+import { check } from '../api/account'
 
 const accountActions = () => ({
   async init (state) {
@@ -6,9 +7,13 @@ const accountActions = () => ({
 
     if (!accessToken) return state
 
-    const { authenticated } = await verify(accessToken)
+    const { authenticated, username } = await check(accessToken)
+
+    if (!authenticated) return state
+
+    this.login({ accessToken, username })
   },
-  login ({ account, ...state }, { accessToken, username }) {
+  login (state, { accessToken, username }) {
     storeAccessToken(accessToken)
     return {
       ...state,

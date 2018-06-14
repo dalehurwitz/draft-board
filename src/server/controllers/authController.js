@@ -67,7 +67,6 @@ exports.setToken = function (req, res, next) {
   )
   res.json({
     accessToken,
-    userId: req.user.id,
     username: req.user.username
   })
 }
@@ -84,25 +83,24 @@ exports.validateJWT = function (req, res, next) {
     }
 
     req.user = user
-    next(null)
+    next()
   })(req, res, next)
 }
 
 // If an auth token is valid return user info
-exports.authenticate = function (err, req, res, next) {
-  if (err) {
-    if (err.error === 'InvalidToken') {
+exports.checkAuth = function (req, res, next) {
+  passport.authenticate('jwt', { session: false }, function (err, user, info) {
+    if (err) return next(err)
+
+    if (!user) {
       return res.json({ authenticated: false })
     }
-    return next(err)
-  }
 
-  return res.json({
-    authenticated: true,
-    accessToken,
-    userId: req.user.id,
-    username: req.user.username
-  })
+    res.json({
+      authenticated: true,
+      username: user.username
+    })
+  })(req, res, next)
 }
 
 exports.forgotPassword = async function (req, res, next) {

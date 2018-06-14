@@ -9,11 +9,11 @@ class Account extends Component {
     }
   }
 
-  render ({ username }) {
+  render ({ account }) {
     return (
       <div>
         <h1>Account Page</h1>
-        <h2>User: {username}</h2>
+        <h2>User: {account.username}</h2>
         <h3>Draft list</h3>
       </div>
     )

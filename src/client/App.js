@@ -1,9 +1,8 @@
 import { h, Component } from 'preact'
 import Router, { route } from 'preact-router'
 import { connect } from 'unistore/preact'
+import accountActions from './actions/account'
 import './styles/main.scss'
-
-import { getStoredAccessToken } from './utils'
 
 // Pages
 import MainNav from './components/MainNav'
@@ -15,7 +14,13 @@ import Create from './pages/Create/'
 
 class App extends Component {
   componentDidMount () {
-    const token = getStoredAccessToken()
+    this.props.init()
+  }
+
+  componentWillReceiveProps ({ account }) {
+    if (!this.props.account.authenticated && account.authenticated) {
+      route('/account')
+    }
   }
 
   render () {
@@ -34,4 +39,7 @@ class App extends Component {
   }
 }
 
-export default connect('account')(App)
+export default connect(
+  'account',
+  accountActions
+)(App)
