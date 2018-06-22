@@ -1,14 +1,18 @@
 import { h, Component } from 'preact'
+import { connect } from 'unistore/preact'
+import { route } from 'preact-router'
 import Form from './Form'
 import { register } from '../../api/account'
+import actions from '../../actions'
 
 class Register extends Component {
   onSubmit = ({ username, email, password, passwordConfirm }) => {
     return register(username, email, password, passwordConfirm)
   }
 
-  onSuccess (data) {
-    console.log(data)
+  onSuccess = data => {
+    this.props.login(data)
+    route('/account')
   }
 
   onError (error) {
@@ -29,4 +33,7 @@ class Register extends Component {
   }
 }
 
-export default Register
+export default connect(
+  'account',
+  actions
+)(Register)

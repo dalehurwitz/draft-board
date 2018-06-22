@@ -45,6 +45,7 @@ const Register = ({ onInput, values, errors }) => {
         value={values.passwordConfirm}
         error={errors.passwordConfirm}
         onInput={onInput}
+        pattern={`^${values.password}$`}
         required
       />
       <button type='submit'>Register</button>

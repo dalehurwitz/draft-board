@@ -1,1 +1,9 @@
-export { default as accountActions } from './account'
+import accountActions from './account'
+import routerActions from './router'
+
+const actions = () => ({
+  ...accountActions,
+  ...routerActions
+})
+
+export default actions

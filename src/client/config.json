@@ -25,7 +25,8 @@
         "valueMissing": "Password is required"
       },
       "passwordConfirm": {
-        "valueMissing": "Confirm your password"
+        "valueMissing": "Confirm your password",
+        "patternMismatch": "Passwords must match"
       }
     }
   }

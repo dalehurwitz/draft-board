@@ -1,7 +1,7 @@
 import { h, Component } from 'preact'
 import Router, { route } from 'preact-router'
 import { connect } from 'unistore/preact'
-import accountActions from './actions/account'
+import actions from './actions'
 import './styles/main.scss'
 
 // Pages
@@ -17,9 +17,21 @@ class App extends Component {
     this.props.init()
   }
 
-  componentWillReceiveProps ({ account }) {
-    if (!this.props.account.authenticated && account.authenticated) {
-      route('/account')
+  componentWillReceiveProps (nextProps) {
+    const { authenticated, loading } = this.props.account
+    // Redirect to account page when we've logged in
+    if (nextProps.account.authenticated && nextProps.route === '/') {
+      return route('/account', true)
+    }
+
+    // if (authenticated && !nextProps.authenticated) {
+    //   route('/')
+    // }
+  }
+
+  onRouteChange = e => {
+    if (e.url !== this.props.url) {
+      this.props.changeRoute(e.url)
     }
   }
 
@@ -27,7 +39,7 @@ class App extends Component {
     return (
       <div className='app'>
         <MainNav />
-        <Router>
+        <Router onChange={this.onRouteChange}>
           <Home path='/' />
           <Account path='/account' />
           <Register path='/register' />
@@ -40,6 +52,6 @@ class App extends Component {
 }
 
 export default connect(
-  'account',
-  accountActions
+  'account, route',
+  actions
 )(App)

@@ -4,12 +4,22 @@ import { connect } from 'unistore/preact'
 
 class Account extends Component {
   componentDidMount () {
-    if (!this.props.account.authenticated) {
+    this.handleLoggedOut(this.props.account)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.handleLoggedOut(nextProps.account)
+  }
+
+  handleLoggedOut ({ authenticated, loading }) {
+    if (!authenticated && !loading) {
       route('/', true)
     }
   }
 
   render ({ account }) {
+    if (account.loading) return 'Loading...'
+
     return (
       <div>
         <h1>Account Page</h1>

@@ -3,28 +3,24 @@ import { route } from 'preact-router'
 import { connect } from 'unistore/preact'
 import LoginForm from './LoginForm'
 import { login } from '../../api/account'
-import { accountActions } from '../../actions'
+import actions from '../../actions'
 
 class Home extends Component {
   onLogin ({ email, password }) {
     return login(email, password)
   }
 
-  onLoginSuccess = data => {
-    this.props.login(data)
-  }
-
   onLoginError (error) {
     console.log(error)
   }
 
-  render ({ account }) {
+  render ({ account, login }) {
     return (
       <div class='fullscreen'>
         <h1>Draft Board</h1>
         <LoginForm
           onSubmit={this.onLogin}
-          onSuccess={this.onLoginSuccess}
+          onSuccess={login}
           onError={this.onLoginError}
         />
       </div>
@@ -34,5 +30,5 @@ class Home extends Component {
 
 export default connect(
   'account',
-  accountActions
+  actions
 )(Home)

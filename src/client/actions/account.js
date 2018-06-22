@@ -1,15 +1,26 @@
-import { storeAccessToken, getStoredAccessToken } from '../utils'
+import {
+  storeAccessToken,
+  getStoredAccessToken,
+  removeStoredAccessToken
+} from '../utils'
 import { check } from '../api/account'
 
-const accountActions = () => ({
+const accountActions = {
   async init (state) {
     const accessToken = getStoredAccessToken()
+    const defaultNewState = {
+      ...state,
+      account: {
+        ...state.account,
+        loading: false
+      }
+    }
 
-    if (!accessToken) return state
+    if (!accessToken) return defaultNewState
 
     const { authenticated, username } = await check(accessToken)
 
-    if (!authenticated) return state
+    if (!authenticated) return defaultNewState
 
     this.login({ accessToken, username })
   },
@@ -19,11 +30,24 @@ const accountActions = () => ({
       ...state,
       account: {
         authenticated: true,
+        loading: false,
         accessToken,
         username
       }
     }
+  },
+  logout (state) {
+    removeStoredAccessToken()
+    return {
+      ...state,
+      account: {
+        authenticated: false,
+        loading: true,
+        accessToken: null,
+        username: null
+      }
+    }
   }
-})
+}
 
 export default accountActions
