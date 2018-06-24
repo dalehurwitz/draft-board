@@ -28,6 +28,8 @@ const Login = ({ onInput, values, errors }) => {
         required
       />
       <button type='submit'>Login</button>
+      <br />
+      <a href='/forgot'>Forgot Password</a>
     </div>
   )
 }

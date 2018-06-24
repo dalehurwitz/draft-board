@@ -3,9 +3,9 @@ import {
   getStoredAccessToken,
   removeStoredAccessToken
 } from '../utils'
-import { check } from '../api/account'
+import { login, check } from '../api/account'
 
-const accountActions = {
+const accountActions = store => ({
   async init (state) {
     const accessToken = getStoredAccessToken()
     const defaultNewState = {
@@ -22,9 +22,18 @@ const accountActions = {
 
     if (!authenticated) return defaultNewState
 
-    this.login({ accessToken, username })
+    this.setLoggedIn({ accessToken, username })
   },
-  login (state, { accessToken, username }) {
+  requestLogin (state) {
+    store.setState({
+      ...state,
+      account: {
+        ...state.account,
+        loading: true
+      }
+    })
+  },
+  setLoggedIn (state, { accessToken, username }) {
     storeAccessToken(accessToken)
     return {
       ...state,
@@ -42,12 +51,12 @@ const accountActions = {
       ...state,
       account: {
         authenticated: false,
-        loading: true,
+        loading: false,
         accessToken: null,
         username: null
       }
     }
   }
-}
+})
 
 export default accountActions

@@ -32,13 +32,18 @@ function form (WrappedComponent, { defaultValues, fieldErrorMessages }) {
         return this.setState({ errors })
       }
 
-      this.setState({ loading: true })
+      this.setState({ loading: true, errors: {} })
 
       const { onSubmit, onSuccess, onError } = this.props
 
       const submit = onSubmit(this.state.fieldValues)
 
-      submit.then(onSuccess).catch(onError)
+      submit
+        .then(data => {
+          this.setState({ loading: false })
+          onSuccess(data)
+        })
+        .catch(onError)
     }
 
     render (props) {
@@ -49,6 +54,7 @@ function form (WrappedComponent, { defaultValues, fieldErrorMessages }) {
             onSubmit={this.onSubmit}
             errors={this.state.errors}
             values={this.state.fieldValues}
+            loading={this.state.loading}
             {...props}
           />
         </form>

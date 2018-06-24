@@ -1,22 +1,7 @@
 import { h, Component } from 'preact'
-import { route } from 'preact-router'
-import { connect } from 'unistore/preact'
+import AuthPage from '../AuthPage'
 
 class Account extends Component {
-  componentDidMount () {
-    this.handleLoggedOut(this.props.account)
-  }
-
-  componentWillReceiveProps (nextProps) {
-    this.handleLoggedOut(nextProps.account)
-  }
-
-  handleLoggedOut ({ authenticated, loading }) {
-    if (!authenticated && !loading) {
-      route('/', true)
-    }
-  }
-
   render ({ account }) {
     if (account.loading) return 'Loading...'
 
@@ -30,4 +15,4 @@ class Account extends Component {
   }
 }
 
-export default connect('account')(Account)
+export default AuthPage(Account)

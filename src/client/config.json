@@ -28,6 +28,21 @@
         "valueMissing": "Confirm your password",
         "patternMismatch": "Passwords must match"
       }
+    },
+    "FORGOT": {
+      "email": {
+        "valueMissing": "Email is required",
+        "typeMismatch": "Enter a valid email address"
+      }
+    },
+    "RESET": {
+      "password": {
+        "valueMissing": "Password is required"
+      },
+      "passwordConfirm": {
+        "valueMissing": "Confirm your password",
+        "patternMismatch": "Passwords must match"
+      }
     }
   }
 }

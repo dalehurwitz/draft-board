@@ -9,6 +9,8 @@ import MainNav from './components/MainNav'
 import Home from './pages/Home'
 import Account from './pages/Account'
 import Register from './pages/Register'
+import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 import Draft from './pages/Draft'
 import Create from './pages/Create/'
 
@@ -18,9 +20,17 @@ class App extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { authenticated, loading } = this.props.account
-    // Redirect to account page when we've logged in
-    if (nextProps.account.authenticated && nextProps.route === '/') {
+    const { authenticated, accessToken } = this.props.account
+
+    if (
+      // Redirect to account page if:
+      // 1- We're logged in and try to return home
+      (nextProps.account.authenticated && nextProps.route === '/') ||
+      // 2- We've logged in or registered
+      (!authenticated && nextProps.account.authenticated) ||
+      // 3 - We've registered a new account while already logged in
+      accessToken !== nextProps.account.accessToken
+    ) {
       return route('/account', true)
     }
 
@@ -40,11 +50,13 @@ class App extends Component {
       <div className='app'>
         <MainNav />
         <Router onChange={this.onRouteChange}>
-          <Home path='/' />
+          <Home path='/' default />
           <Account path='/account' />
           <Register path='/register' />
           <Draft path='/draft' />
           <Create path='/create' />
+          <ForgotPassword path='/forgot' />
+          <ResetPassword path='/reset/:token' />
         </Router>
       </div>
     )

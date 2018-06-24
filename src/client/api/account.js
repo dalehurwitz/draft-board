@@ -20,4 +20,15 @@ function check (authToken) {
   return get(`/api/check`, authToken)
 }
 
-export { login, register, check }
+function forgot (email) {
+  return post(`/api/forgot`, { email })
+}
+
+function reset (token, password, passwordConfirm) {
+  return post(`/api/reset/${token}`, {
+    password,
+    'password-confirm': passwordConfirm
+  })
+}
+
+export { login, register, check, forgot, reset }

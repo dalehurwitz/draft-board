@@ -125,7 +125,7 @@ exports.forgotPassword = async function (req, res, next) {
     filename: 'email-forgot.ejs',
     email: req.body.email,
     subject: 'Draft.com: Reset your password',
-    url: `http://${req.headers.host}/account/reset/${resetToken}`
+    url: `http://${req.headers.host}/reset/${resetToken}`
   })
 
   res.json(successPayload)
@@ -159,7 +159,12 @@ exports.resetPassword = async function (req, res, next) {
   })
 
   if (user) {
-    await user.update({ password: req.body.password })
+    await user.update({
+      password: req.body.password,
+      resetToken: null,
+      resetTokenExpires: null
+    })
+
     return res.json({
       success: true,
       message: 'PASSWORD_UPDATED'

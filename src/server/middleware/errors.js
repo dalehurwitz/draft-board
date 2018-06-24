@@ -42,7 +42,6 @@ exports.mongoErrors = (err, req, res, next) => {
 }
 
 exports.catchAllErrors = (err, req, res, next) => {
-  console.log(err)
   res.status(err.status || 500).json({
     error: err.error || err,
     message: err.message || undefined

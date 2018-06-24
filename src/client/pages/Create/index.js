@@ -1,4 +1,5 @@
 import { h, Component } from 'preact'
+import AuthPage from '../AuthPage'
 import Team from './Team'
 import { createDraft } from '../../api/draft'
 
@@ -159,4 +160,4 @@ class Create extends Component {
   }
 }
 
-export default Create
+export default AuthPage(Create)

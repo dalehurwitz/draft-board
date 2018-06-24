@@ -4,7 +4,6 @@ import { connect } from 'unistore/preact'
 import actions from '../actions'
 
 const MainNav = props => {
-  console.log(props)
   return (
     <nav id='main-nav'>
       <Link
@@ -21,25 +20,25 @@ const MainNav = props => {
       >
         Register
       </Link>
-      <Link
+      {props.account.authenticated && [
+        <Link
         className='main-nav__link'
         activeClassName='main-nav__link--active'
         href='/draft'
-      >
-        Draft
-      </Link>
-      <Link
-        className='main-nav__link'
-        activeClassName='main-nav__link--active'
-        href='/create'
-      >
-        Create
-      </Link>
-      {props.account.authenticated && (
+        >
+          Draft
+        </Link>,
+        <Link
+          className='main-nav__link'
+          activeClassName='main-nav__link--active'
+          href='/create'
+        >
+          Create
+        </Link>,
         <button className='main-nav__link' onClick={props.logout}>
           Logout
         </button>
-      )}
+      ]}
     </nav>
   )
 }

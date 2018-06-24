@@ -11,8 +11,7 @@ class Register extends Component {
   }
 
   onSuccess = data => {
-    this.props.login(data)
-    route('/account')
+    this.props.setLoggedIn(data)
   }
 
   onError (error) {

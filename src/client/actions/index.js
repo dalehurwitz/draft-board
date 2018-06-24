@@ -1,9 +1,9 @@
 import accountActions from './account'
 import routerActions from './router'
 
-const actions = () => ({
-  ...accountActions,
-  ...routerActions
+const actions = store => ({
+  ...accountActions(store),
+  ...routerActions(store)
 })
 
 export default actions

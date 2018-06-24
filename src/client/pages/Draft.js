@@ -1,4 +1,5 @@
 import { h, Component } from 'preact'
+import AuthPage from './AuthPage'
 import DraftTeam from '../components/DraftTeam'
 import mockDraft from '../_DATA/mock-draft.json'
 
@@ -15,4 +16,4 @@ class Draft extends Component {
   }
 }
 
-export default Draft
+export default AuthPage(Draft)

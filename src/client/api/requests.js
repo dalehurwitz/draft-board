@@ -27,7 +27,6 @@ function createFetchRequest (method, url, body, authToken) {
       return Promise.reject(response)
     })
     .catch(error => {
-      console.log(error)
       return error.json()
     })
 
