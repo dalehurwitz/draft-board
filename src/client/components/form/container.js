@@ -7,6 +7,7 @@ function form (WrappedComponent, { defaultValues, fieldErrorMessages }) {
         ...defaultValues
       },
       errors: {},
+      submitError: null,
       submitted: false
     }
 
@@ -40,21 +41,26 @@ function form (WrappedComponent, { defaultValues, fieldErrorMessages }) {
 
       submit
         .then(data => {
-          this.setState({ loading: false })
+          this.setState({ loading: false, submitError: null })
           onSuccess(data)
         })
-        .catch(onError)
+        .catch(error => {
+          const submitError = error.error || error
+          this.setState({ loading: false, submitError })
+          onError(submitError)
+        })
     }
 
-    render (props) {
+    render (props, state) {
       return (
         <form onSubmit={this.onSubmit} noValidate>
           <WrappedComponent
             onInput={this.onInput}
             onSubmit={this.onSubmit}
-            errors={this.state.errors}
-            values={this.state.fieldValues}
-            loading={this.state.loading}
+            errors={state.errors}
+            values={state.fieldValues}
+            loading={state.loading}
+            submitError={state.submitError}
             {...props}
           />
         </form>

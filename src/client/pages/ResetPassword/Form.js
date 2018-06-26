@@ -3,7 +3,7 @@ import form from '../../components/form/container'
 import TextField from '../../components/form/TextField'
 import { FIELD_ERRORS } from '../../config.json'
 
-const ResetForm = ({ onInput, errors, values, loading }) => (
+const ResetForm = ({ onInput, errors, values, loading, submitError }) => (
   <div>
     <h2>Reset Password</h2>
     <TextField
@@ -30,6 +30,7 @@ const ResetForm = ({ onInput, errors, values, loading }) => (
     <button type='submit' disabled={loading}>
       {loading ? 'Loading...' : 'Submit'}
     </button>
+    {submitError && <p style={{color: 'red'}}>{submitError}</p>}
   </div>
 )
 

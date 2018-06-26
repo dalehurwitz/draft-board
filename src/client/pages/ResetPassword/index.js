@@ -1,11 +1,12 @@
 import { h, Component } from 'preact'
+import { Link } from 'preact-router/match'
 import Form from './Form'
 import { reset } from '../../api/account'
 
 class ResetPassword extends Component {
   state = {
-    info: null,
-    error: false
+    success: null,
+    message: null
   }
 
   onSubmit = ({ password, passwordConfirm }) => {
@@ -14,29 +15,35 @@ class ResetPassword extends Component {
 
   onSuccess = ({ message }) => {
     this.setState({
-      error: false,
-      info: message
+      success: true,
+      message
     })
   }
 
-  onError = err => {
-    this.setState({
-      error: true,
-      info: message
-    })
+  renderPage () {
+    if (this.state.success) {
+      return (
+        <div>
+          <h3>{this.state.message}</h3>
+          <Link href='/'>
+            Login
+          </Link>
+        </div>
+      )
+    }
+
+    return (
+      <Form
+        onSubmit={this.onSubmit}
+        onSuccess={this.onSuccess}
+      />
+    )
   }
 
   render (props, state) {
     return (
       <div className='fullscreen'>
-        <Form
-          onSubmit={this.onSubmit}
-          onSuccess={this.onSuccess}
-          onError={this.onError}
-        />
-        {state.info && (
-          <p style={{ color: state.error ? 'red' : 'green' }}>{state.info}</p>
-        )}
+        {this.renderPage()}
       </div>
     )
   }

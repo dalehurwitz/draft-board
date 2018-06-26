@@ -3,7 +3,7 @@ import form from '../../components/form/container'
 import TextField from '../../components/form/TextField'
 import { FIELD_ERRORS, REGEXP_PATTERNS } from '../../config.json'
 
-const Register = ({ onInput, values, errors }) => {
+const Register = ({ onInput, values, errors, loading, submitError }) => {
   return (
     <div>
       <TextField
@@ -48,7 +48,8 @@ const Register = ({ onInput, values, errors }) => {
         pattern={`^${values.password}$`}
         required
       />
-      <button type='submit'>Register</button>
+      <button type='submit' disabled={loading}>{loading ? 'Loading...' : 'Register'}</button>
+      {submitError && <p style={{color: 'red'}}>{submitError}</p>}
     </div>
   )
 }

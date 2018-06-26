@@ -1,6 +1,5 @@
 import { h, Component } from 'preact'
 import { connect } from 'unistore/preact'
-import { route } from 'preact-router'
 import Form from './Form'
 import { register } from '../../api/account'
 import actions from '../../actions'
@@ -14,18 +13,13 @@ class Register extends Component {
     this.props.setLoggedIn(data)
   }
 
-  onError (error) {
-    console.log(error)
-  }
-
-  render () {
+  render (props, state) {
     return (
       <div className='fullscreen'>
         <h2>Create an account</h2>
         <Form
           onSubmit={this.onSubmit}
           onSuccess={this.onSuccess}
-          onError={this.onError}
         />
       </div>
     )

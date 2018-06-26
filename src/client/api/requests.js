@@ -20,14 +20,13 @@ function createFetchRequest (method, url, body, authToken) {
   }
 
   const fetchPromise = fetch(url, options)
-    .then(response => {
+    .then(async response => {
+      const json = await response.json()
+
       if (response.status >= 200 && response.status < 400) {
-        return response.json()
+        return Promise.resolve(json)
       }
-      return Promise.reject(response)
-    })
-    .catch(error => {
-      return error.json()
+      return Promise.reject(json)
     })
 
   return Promise.race([fetchPromise, timeoutPromise])

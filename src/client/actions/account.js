@@ -3,7 +3,7 @@ import {
   getStoredAccessToken,
   removeStoredAccessToken
 } from '../utils'
-import { login, check } from '../api/account'
+import { check } from '../api/account'
 
 const accountActions = store => ({
   async init (state) {

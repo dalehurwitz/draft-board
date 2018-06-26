@@ -3,7 +3,7 @@ import form from '../../components/form/container'
 import TextField from '../../components/form/TextField'
 import { FIELD_ERRORS } from '../../config.json'
 
-const Login = ({ onInput, values, errors }) => {
+const Login = ({ onInput, values, loading, errors, submitError }) => {
   return (
     <div>
       <h2>Login</h2>
@@ -27,9 +27,10 @@ const Login = ({ onInput, values, errors }) => {
         onInput={onInput}
         required
       />
-      <button type='submit'>Login</button>
+      <button type='submit' disabled={loading}>{loading ? 'Loading...' : 'Login'}</button>
       <br />
       <a href='/forgot'>Forgot Password</a>
+      {submitError && <p style={{color: 'red'}}>{submitError}</p>}
     </div>
   )
 }
